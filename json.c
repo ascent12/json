@@ -12,8 +12,11 @@
  * <digit> :: <digit-0> | "0"
  */
 
-int row = 1;
-int col = 0;
+#define BUF_SIZE 1024
+
+/* TODO: Remove globals. Maybe have a JSON parser struct to pass around */
+static int row = 1;
+static int col = 0;
 
 static int fpeek(FILE *fp)
 {
@@ -36,6 +39,12 @@ static int get_char(FILE *fp)
 	}
 
 	return c;
+}
+
+static void unget_char(int c, FILE *fp)
+{
+	ungetc(c, fp);
+	--col;
 }
 
 static void skip_whitespace(FILE *fp)
@@ -87,8 +96,6 @@ static bool parse_escape(FILE *fp, char **dest)
 	*dest = ptr;
 	return 1;
 }
-
-#define BUF_SIZE 1024
 
 static bool parse_string(FILE *fp, char *dest)
 {
@@ -177,7 +184,7 @@ static bool parse_number(FILE *fp, double *dest)
 
 	/* Number contains no decimal or exponent */
 	if (buffer[n] == ',')
-		ungetc(',', fp);
+		unget_char(',', fp);
 	
 	if (buffer[n] == '.') {
 		do
@@ -192,7 +199,7 @@ static bool parse_number(FILE *fp, double *dest)
 
 		/* Number contains no exponent */
 		if (buffer[n] == ',')
-			ungetc(',', fp);
+			unget_char(',', fp);
 	}
 
 	if (buffer[n] == 'e' || buffer[n] == 'E') {
@@ -206,7 +213,7 @@ static bool parse_number(FILE *fp, double *dest)
 		while (isdigit(buffer[n]));
 
 		if (buffer[n] == ',')
-			ungetc(',', fp);
+			unget_char(',', fp);
 	}
 
 	buffer[n] = '\0';
@@ -232,13 +239,14 @@ static bool parse_array(FILE *fp, array *dest)
 	skip_whitespace(fp);
 
 	while ((c = get_char(fp)) != ']') {
-		ungetc(c, fp);
+		unget_char(c, fp);
 		skip_whitespace(fp);
 
+		/* TODO: Refactor into a function or something, if it's possible */
 		switch (c = fpeek(fp)) {
 		case '{':
 			;
-			object *obj = object_create(64);
+			object *obj = object_create(64); /* TODO: Replace magic number */
 			if (!parse_object(fp, obj)) {
 				object_destroy(&obj);
 				return 0;
@@ -247,7 +255,7 @@ static bool parse_array(FILE *fp, array *dest)
 			break;
 		case '[':
 			;
-			array *arr = array_create(10);	/* TODO: Replace magic number */
+			array *arr = array_create(10); /* TODO: Replace magic number */
 			if (!parse_array(fp, arr)) {
 				array_destroy(&arr);
 				return 0;
@@ -319,7 +327,7 @@ static bool parse_object(FILE *fp, object *dest)
 	skip_whitespace(fp);
 
 	while ((c = get_char(fp)) == '"') {
-		ungetc('"', fp);
+		unget_char('"', fp);
 
 		char key[BUF_SIZE];
 		if (!parse_string(fp, key))
@@ -334,11 +342,11 @@ static bool parse_object(FILE *fp, object *dest)
 
 		skip_whitespace(fp);
 
-		/* TODO: Refactor into a function or something */
+		/* TODO: Refactor into a function or something, if it's possible */
 		switch (c = fpeek(fp)) {
 		case '{':
 			;
-			object *obj = object_create(64);
+			object *obj = object_create(64); /* TODO: Replace magic number */
 			if (!parse_object(fp, obj)) {
 				object_destroy(&obj);
 				return 0;
@@ -347,7 +355,7 @@ static bool parse_object(FILE *fp, object *dest)
 			break;
 		case '[':
 			;
-			array *arr = array_create(10);	/* TODO: Replace magic number */
+			array *arr = array_create(10); /* TODO: Replace magic number */
 			if (!parse_array(fp, arr)) {
 				array_destroy(&arr);
 				return 0;
