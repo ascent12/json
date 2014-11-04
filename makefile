@@ -7,8 +7,11 @@ SRC = array.c object.c value.c json.c
 OBJ = $(SRC:.c=.o)
 LIB = json.a
 
-TEST_SRC = test.c
-TEST_EXE = test
+TEST1_SRC = test.c
+TEST1_EXE = test
+
+TEST2_SRC = test2.c
+TEST2_EXE = test2
 
 all: $(LIB)
 
@@ -19,7 +22,8 @@ $(LIB): $(OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 test: all
-	$(CC) $(TEST_SRC) $(LIB) -o $(TEST_EXE) $(CFLAGS)
+	$(CC) $(TEST1_SRC) $(LIB) -o $(TEST1_EXE) $(CFLAGS)
+	$(CC) $(TEST2_SRC) $(LIB) -o $(TEST2_EXE) $(CFLAGS)
 
 clean:
-	@rm -f $(OBJ) $(LIB) $(TEST_EXE)
+	@rm -f $(OBJ) $(LIB) $(TEST1_EXE) $(TEST2_EXE)
