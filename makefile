@@ -3,7 +3,7 @@ CFLAGS = -g -Wall -Wextra -pedantic
 
 AR = ar
 
-SRC = array.c object.c value.c
+SRC = array.c object.c value.c json.c
 OBJ = $(SRC:.c=.o)
 LIB = json.a
 

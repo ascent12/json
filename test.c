@@ -1,13 +1,13 @@
 #include "object.h"
 #include "array.h"
+#include "json.h"
 
 int main(void)
 {
+/*	object *o1 = object_create(64);
 
-	object *o1 = object_create(64);
-
-	object_add(o1, "Int", 12345);	/* Lies. It's really stored as a double */
-	object_add(o1, "Double", -1.2345e-10);
+	object_add(o1, "Int", 12345);*/	/* Lies. It's really stored as a double */
+/*	object_add(o1, "Double", -1.2345e-10);
 	object_add(o1, "String", "Hello World!");
 	object_add(o1, "True", (bool)true);
 	object_add(o1, "False", (bool)false);
@@ -45,10 +45,22 @@ int main(void)
 
 	object_add(o3, "Sub-Object", NULL);
 
-	object_print(stdout, o1, 0);
+	object_print(stdout, o1, 0);*/
 
 	/* Sub-objects, sub-arrays, and strings are automatically freed */
-	object_destroy(&o1);
+/*	object_destroy(&o1);*/
+
+	FILE *fp = fopen("test.json", "r");
+
+	object *json = json_parse(fp);
+
+	if (!json)
+		return 1;
+
+	object_print(stdout, json, 0);
+
+	object_destroy(&json);
+	fclose(fp);
 
 	return 0;
 }

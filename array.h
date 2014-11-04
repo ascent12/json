@@ -19,8 +19,10 @@ value *array_get_value(array *a, int i);
 void array_resize(array *a);
 
 #define array_push(_array, _data) \
-	array_set_index(_array, _array->end++, _data); \
-	array_resize(_array);
+	do { \
+		array_set_index(_array, _array->end++, _data); \
+		array_resize(_array); \
+	} while (0);
 
 #define array_pop(_array, _destination) \
 	array_get_index(_array, --_array->end, _destination)

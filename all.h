@@ -1,6 +1,7 @@
 #ifndef ALL_H
 #define ALL_H
 
+#include <ctype.h>
 #include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
