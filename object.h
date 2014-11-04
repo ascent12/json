@@ -4,7 +4,7 @@
 #include "all.h"
 #include "value.h"
 
-object *object_create();
+object *object_create(size_t size);
 
 void object_destroy(object **o);
 
