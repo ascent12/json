@@ -17,6 +17,8 @@ int main(void)
 	object_add(o1, "Object", object_create(32));
 	object_add(o1, "Array", array_create(32));
 
+	object_remove(o1, "null");
+
 	object *o2;
 	array *a1;
 
@@ -44,6 +46,8 @@ int main(void)
 	array_get_index(a1, 2, &o3);
 
 	object_add(o3, "Sub-Object", NULL);
+
+	object_remove(o1, "Array");
 
 	object_print(stdout, o1, 0);
 

@@ -99,15 +99,23 @@ void object_remove(object *o, char *name)
 		}
 	}
 
+	object_pair *prev = NULL;
+
 	/* Removing entry from list of order added */
 	for (object_pair **curr = &o->head; *curr; ) {
 		object_pair *entry = *curr;
 
 		if (strcmp(entry->name, name) == 0) {
-			*curr = entry->next;
+			if (o->tail == entry)
+				o->tail = prev;
+
+			prev = *curr;
+			*curr = entry->order;
+
 			free_pair(entry);
 		} else {
-			curr = &entry->next;
+			prev = *curr;
+			curr = &entry->order;
 		}
 	}
 
@@ -119,10 +127,18 @@ object_pair *object_get_pair(object *o, char *name)
 {
 	object_pair *pair = o->buckets[str_hash(name, o->size)];
 
-	while (!pair || strcmp(pair->name, name) != 0)
+	if (!pair)
+		return NULL;
+
+	while (pair && strcmp(pair->name, name) != 0)
 		pair = pair->next;
 
 	return pair;
+}
+
+bool object_exists(object *o, char *name)
+{
+	return object_get_pair(o, name) != NULL;
 }
 
 static void print_pair(FILE *fp, object_pair *pair, int indent)

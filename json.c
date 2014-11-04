@@ -264,7 +264,7 @@ static bool parse_array(FILE *fp, array *dest)
 			break;
 		case '"':
 			;
-			char string[BUF_SIZE];
+			char string[BUF_SIZE] = {0};
 			if (!parse_string(fp, string))
 				return 0;
 			array_push(dest, (char*)string);

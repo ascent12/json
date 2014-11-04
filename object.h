@@ -15,6 +15,8 @@ value *object_add_general(object *o, char *name);
 
 void object_remove(object *o, char *name);
 
+bool object_exists(object *o, char *name);
+
 object_pair *object_get_pair(object *o, char *name);
 
 #define object_get(_object, _name, _destination) \

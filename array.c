@@ -41,9 +41,16 @@ void array_resize(array *a)
 			a->size = a->min;
 	}
 
-	if (a->size != orig &&
-			!(a->data = realloc(a->data, sizeof *a->data * a->size)))
+	if (a->size == orig)
+		return;
+
+	if (!(a->data = realloc(a->data, sizeof *a->data * a->size)))
 		exit(1);
+
+	for (size_t i = orig; i < a->size; ++i) {
+		a->data[i].type = type_undefined;
+		a->data[i].p = NULL;
+	}
 }
 
 void array_print(FILE *fp, array *a, int indent)

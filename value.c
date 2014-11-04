@@ -2,7 +2,8 @@
 
 void value_set_int(value *v, int value)
 {
-	value_set_double(v, (double)value);
+	v->type = type_int;
+	v->i = value;
 }
 
 void value_set_double(value *v, double value)
@@ -49,8 +50,8 @@ void value_set_ptr(value *v, void *value)
 int value_get_int(value *v, int *dest)
 {
 	if (dest)
-		*dest = (int)v->d;
-	return (int)v->d;
+		*dest = v->i;
+	return v->i;
 }
 
 double value_get_double(value *v, double *dest)

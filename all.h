@@ -17,6 +17,7 @@ typedef struct array array;
 struct value {
 	enum {
 		type_undefined,
+		type_int,
 		type_double,
 		type_bool,
 		type_string,
@@ -26,6 +27,7 @@ struct value {
 	} type;
 
 	union {
+		int i;
 		double d;
 		bool b;
 		char* s;
