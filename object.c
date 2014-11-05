@@ -41,7 +41,7 @@ static int str_hash(char *name, size_t max)
 {
 	size_t len = strlen(name);
 	uint64_t sum = 0;
-	int mult;
+	int mult = 1;
 
 	for (size_t i = 0; i < len; ++i) {
 		if (i % 4 == 0)
