@@ -7,10 +7,10 @@ SRC = array.c object.c value.c json.c
 OBJ = $(SRC:.c=.o)
 LIB = json.a
 
-TEST1_SRC = test.c
+TEST1_SRC = test/test.c
 TEST1_EXE = test
 
-TEST2_SRC = test2.c
+TEST2_SRC = test/test2.c
 TEST2_EXE = test2
 
 all: $(LIB)
