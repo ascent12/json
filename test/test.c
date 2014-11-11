@@ -1,6 +1,6 @@
-#include "object.h"
-#include "array.h"
-#include "json.h"
+#include "../object.h"
+#include "../array.h"
+#include "../json.h"
 
 int main(void)
 {

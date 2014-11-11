@@ -8,7 +8,7 @@ OBJ = $(SRC:.c=.o)
 LIB = json.a
 
 TEST1_SRC = test/test.c
-TEST1_EXE = test
+TEST1_EXE = test1
 
 TEST2_SRC = test/test2.c
 TEST2_EXE = test2

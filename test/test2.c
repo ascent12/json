@@ -1,5 +1,5 @@
-#include "object.h"
-#include "json.h"
+#include "../object.h"
+#include "../json.h"
 
 int main(int argc, char *argv[])
 {

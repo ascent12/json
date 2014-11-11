@@ -1,5 +1,6 @@
 *.swp
 *.o
-test/test
-test/test2
+test1
+test2
 json.a
+*.json
