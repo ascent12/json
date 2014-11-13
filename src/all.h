@@ -9,10 +9,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct value value;
-typedef struct object_pair object_pair;
-typedef struct object object;
 typedef struct array array;
+typedef struct object object;
 
 struct value {
 	enum {
@@ -38,28 +36,26 @@ struct value {
 };
 
 struct object_pair {
-	char* name;
-	value value;
+	struct object_pair *next;
+	struct object_pair *order;
 
-	object_pair *next;
-	object_pair *order;
+	struct value value;
+	char key[];
 };
 
 struct object {
+	struct object_pair *head;
+	struct object_pair *tail;
+
 	size_t size;
-
-	object_pair **buckets;
-
-	object_pair *head;
-	object_pair *tail;
+	struct object_pair *buckets[];
 };
 
 struct array {
 	size_t size;
-	size_t min;
-	int end;
-
-	value *data;
+	struct value *data;
 };
+
+//array_print(FILE *fp, array *a, int index);
 
 #endif

@@ -1,4 +1,5 @@
-#include "json.h"
+#include "all.h"
+#include "json11.h"
 
 /*
  * <object> ::= "{" [ [ <pair> "," ]* <pair> ] "}"
@@ -251,7 +252,7 @@ static bool parse_array(FILE *fp, array *dest)
 				object_destroy(&obj);
 				return 0;
 			}
-			array_push(dest, obj);
+			array_set(dest, array_next_free(dest), obj);
 			break;
 		case '[':
 			;
@@ -260,36 +261,36 @@ static bool parse_array(FILE *fp, array *dest)
 				array_destroy(&arr);
 				return 0;
 			}
-			array_push(dest, arr);
+			array_set(dest, array_next_free(dest), arr);
 			break;
 		case '"':
 			;
 			char string[BUF_SIZE] = {0};
 			if (!parse_string(fp, string))
 				return 0;
-			array_push(dest, (char*)string);
+			array_set(dest, array_next_free(dest), (char*)string);
 			break;
 		case 't':
 			if (!parse_true(fp))
 				return 0;
-			array_push(dest, (bool)true);
+			array_set(dest, array_next_free(dest), (bool)true);
 			break;
 		case 'f':
 			if (!parse_false(fp))
 				return 0;
-			array_push(dest, (bool)false);
+			array_set(dest, array_next_free(dest), (bool)false);
 			break;
 		case 'n':
 			if (!parse_null(fp))
 				return 0;
-			array_push(dest, NULL);
+			array_set(dest, array_next_free(dest), NULL);
 			break;
 		default:
 			if (c == '-' || isdigit(c)) {
 				double d;
 				if (!parse_number(fp, &d))
 					return 0;
-				array_push(dest, d);
+				array_set(dest, array_next_free(dest), d);
 				break;
 			}
 
@@ -413,6 +414,7 @@ static bool parse_object(FILE *fp, object *dest)
 	return 1;
 }
 
+JSON11_EXPORT 
 object *json_parse(FILE *fp)
 {
 	object *obj = object_create(64);

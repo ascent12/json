@@ -1,5 +1,4 @@
-#include "../object.h"
-#include "../json.h"
+#include "../json11.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,7 +19,7 @@ int main(int argc, char *argv[])
 	fclose(fp);
 
 	if (json) {
-		object_print(stdout, json, 0);
+//		object_print(stdout, json, 0);
 		object_destroy(&json);
 		return 0;
 	}
