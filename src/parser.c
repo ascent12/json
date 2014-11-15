@@ -15,7 +15,7 @@
  */
 
 #include "all.h"
-#include "json11.h"
+#include "../json11.h"
 
 /*
  * <object> ::= "{" [ [ <pair> "," ]* <pair> ] "}"

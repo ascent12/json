@@ -1,13 +1,8 @@
 A JSON library written in C11.
 
-The current version of autoconf (2.69) doesn't support C11 properly,
-so you must use the git version of autoconf to compile this library.
-You MUST compile this with a compiler that supports C11, as several
-C11 features are used.
+Build configuration is in 'config.mk'
 
 To compile:
-  autoreconf --install
-  ./configure
   make
   make install
 
